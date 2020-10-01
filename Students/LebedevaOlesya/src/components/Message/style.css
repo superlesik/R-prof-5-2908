@@ -5,22 +5,26 @@
    font-size: 14px;
    margin: 10px;
    align-self: flex-start;
+   width: 300px;
+   align-items: center;
+   justify-content: space-between;
 }
 
 .message-text {
    margin-bottom: 0;
    font-weight: 600;
    color: rgb(66, 37, 37);
+   word-break: break-word;
 }
 
 .message-sender {
    color: rgb(184, 169, 169);
    font-size: 10px;
    font-style: italic;
-   padding-left: 100px;
+   /* padding-left: 100px; */
 } 
 
 .me {
    align-self: flex-end;
-   background-color: cyan;
+   color: cyan;
 }

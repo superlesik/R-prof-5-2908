@@ -36,6 +36,8 @@ class MessageField extends Component {
             this.props.sendMessage('chat-' + this.props.chatId + '_' + (this.props.chats[this.props.chatId].messageList.length + 1) , this.state.input, 'Me', this.props.chatId);
         }
         this.setState({ input: '' });
+        $(".message-field").scrollTop($(".message-field").prop("scrollHeight"));
+
     };
 
     handleChange = evt => {
@@ -48,19 +50,29 @@ class MessageField extends Component {
         }
     };
 
-    componentDidMount() {
+    componentDidMount = () => {
         // this.textInput.current.focus();
-        // this.msgField.current.scrollTop = this.msgField.current.scrollHeight;
+        this.handleScroll();
         // fetch('../../srver/db/messages/messages.json').then(body => body.json()).then(json => { json.forEach(msg => { this.props.sendMessage(msg.id, msg.text, msg.sender, msg.chatId);})
         // });
         // this.props.loadMessages();
         this.props.loadChats();
     }
 
-    // componentDidUpdate(prevProps, prevState) {
-    //     // this.textInput.current.focus();
-    //     // this.msgField.current.scrollTop = this.msgField.current.scrollHeight;
-    // }
+    componentDidUpdate = () => {
+        // this.textInput.current.focus();
+        this.handleScroll();
+    }
+
+    handleScroll = () => {
+        const { index, selected } = this.props
+        if (index === selected) {
+          const that = this
+          setTimeout(() => {
+            that.msgField.current.scrollIntoView({ behavior: 'smooth' })
+          }, 500)
+        }
+      }
     
     render() {
         if (this.props.isLoading) {
@@ -80,26 +92,25 @@ class MessageField extends Component {
 
         return (
             <div className="layout-msg-field col-9 d-flex flex-column" key='contentArray'>
-                <div className="message-field">
+                <div className="message-field" ref={ this.msgField }>
                     { contentArray } 
                 </div>
                 <div className="controls d-flex pt-3 align-items-center align-self-end" key='textInput'  >
                     <TextField
                         id="standard-basic"
-                        ref={ this.textInput }
+                        // ref={ this.textInput }
                         fullWidth={ true }
                         name="input"
-                        // autoFocus
+                        autoFocus
                         hintText="Message"
                         type="text"
                         value={ this.state.input }
                         onChange={ this.handleChange}
                         onKeyUp={ this.handleKeyUp }
-                        // onKeyUp = { (event) => this.handleKeyUp(event) }
                     />
                     <FloatingActionButton
                         mini={true} style={{ boxShadow: 'none' }}
-                        onClick={ () => this.handleSendMessage} >
+                        onClick={ () => this.handleSendMessage()} >
                         <SendIcon />
                     </FloatingActionButton>
                 </div>

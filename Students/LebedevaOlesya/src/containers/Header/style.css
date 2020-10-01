@@ -1,0 +1,26 @@
+.Header {
+    /* background: rgb(237,164,16); */
+    background: linear-gradient(90deg, rgba(237,164,16,1) 35%, rgba(226,61,61,1) 100%);
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.chatName {
+    padding: 10px;
+    /* border: 1px solid white; */
+    /* border-radius: 50%; */
+    width: fit-content;
+    margin: 10px;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+}
+.header-profile {
+    display: flex;
+    align-items: center;
+    margin-right: 16.65px;
+    align-self: center;
+    font-size: 18px;
+    color: white;
+}

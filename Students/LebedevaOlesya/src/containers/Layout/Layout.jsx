@@ -6,7 +6,7 @@ import ChatList from '../ChatList/ChatList.jsx';
 import Header from '../Header/Header.jsx';
 import { bindActionCreators } from "redux";
 import connect from "react-redux/es/connect/connect";
-// import { sendMessage } from "../../store/actions/messageActions";
+import { sendMessage } from "../../store/actions/messageActions";
 
 class Layout extends Component {
     static propTypes = {
@@ -66,7 +66,8 @@ class Layout extends Component {
         return (
             <div className="Layout d-flex row">
                 <Header key='header' chatId={ chatId } />
-                <ChatList chatId={ chatId }
+                <ChatList 
+                    // chatId={ chatId }
                     // chats={ this.state.chats } 
                     // addChat={ this.addChat }
                 />
@@ -81,8 +82,10 @@ class Layout extends Component {
         )
     }
 }
-const mapStateToProps = ({}) => ({});
+const mapStateToProps = ({messageReducer}) => ({
+    messages: messageReducer.messages,
+});
 
-const mapDispatchToProps = dispatch => bindActionCreators({ }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ sendMessage }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Layout);

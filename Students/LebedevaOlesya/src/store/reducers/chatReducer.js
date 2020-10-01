@@ -1,10 +1,13 @@
+import React from 'react';
 import update from 'react-addons-update';
 import { SEND_MESSAGE } from '../actions/messageActions';
 import { ADD_CHAT } from "../actions/chatActions";
-import { START_CHATS_LOADING, SUCCESS_CHATS_LOADING, ERROR_CHATS_LOADING } from '../actions/chatActions.js';
+// import { START_CHATS_LOADING, SUCCESS_CHATS_LOADING, ERROR_CHATS_LOADING } from '../actions/chatActions.js';
+import {SUCCESS_CHATS_LOADING } from '../actions/chatActions.js';
 
 const initialStore = {
    chats: {},
+   chatLink: React.createRef(),
    isLoading: true,
 };
 
@@ -28,21 +31,22 @@ export default function chatReducer(store = initialStore, action) {
               } } },
            });
        }
-        case START_CHATS_LOADING: {
-            return update(store, {
-               isLoading: { $set: true },
-            });
-        }
+        // case START_CHATS_LOADING: {
+        //     return update(store, {
+        //        isLoading: { $set: true },
+        //     });
+        // }
         case SUCCESS_CHATS_LOADING: {
             return update(store, {
-                messages: { $set: action.payload.entities.messages },
-            });
-        }
-        case ERROR_CHATS_LOADING: {
-            return update(store, {
+                chats: { $set: action.payload.entities.chats },
                 isLoading: { $set: false },
             });
         }
+        // case ERROR_CHATS_LOADING: {
+        //     return update(store, {
+        //         isLoading: { $set: false },
+        //     });
+        // }
        default:
            return store;
    }

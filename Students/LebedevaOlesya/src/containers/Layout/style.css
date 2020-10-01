@@ -1,0 +1,7 @@
+.Layout {
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(90deg, rgba(237,164,16,1) 35%, rgba(226,61,61,1) 100%);
+    justify-content: space-between;
+    /* width: fit-content; */
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-// import Button from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom';
 import List from '@material-ui/core/List';
@@ -13,16 +13,9 @@ import Dialog from '@material-ui/core/Dialog';
 import PersonIcon from '@material-ui/icons/Person';
 import AddIcon from '@material-ui/icons/Add';
 import cyan from '@material-ui/core/colors/cyan';
-import Button from '@material-ui/core/Button';
 import ContentSend from 'material-ui/svg-icons/content/send';
-import ChatsDialog from '../ChatsDialog/ChatsDialog.jsx';
 
-
-const emails = [
-  <Link to="/chat/1/"><ListItemText primary="Chat 1"/></Link>, 
-  <Link to="/chat/2/"><ListItemText primary="Chat 2"/></Link>, 
-  <Link to="/chat/3/"><ListItemText primary="Chat 3"/></Link>
-];
+const emails = ['Барак Хусейн Обама', 'Александр III', 'Фидель Кастро'];
 const useStyles = makeStyles({
   avatar: {
     backgroundColor: cyan[100],
@@ -42,33 +35,74 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ContactsList(props) {
+function SimpleDialog(props) {
   const classes = useStyles();
   const { onClose, selectedValue, open } = props;
-  
+
   const handleClose = () => {
-    onClose(selectedValue);
+    onClose();
   };
 
   const handleListItemClick = (value) => {
     onClose(value);
   };
-  
+
   return (
     <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-      <DialogTitle id="simple-dialog-title">Выбрать чат</DialogTitle>
+      <DialogTitle id="simple-dialog-title">Выберите чат</DialogTitle>
       <List>
         {emails.map((email) => (
-          <ListItem button onClick={() => handleListItemClick(email)} key={email}>
+          <ListItem button onClick={ () => handleListItemClick(email) } key={email} >
             <ListItemAvatar>
               <Avatar className={classes.avatar}>
                 <PersonIcon />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={email} className={classes.testClass} />
+            <ListItemText primary={email}/>
           </ListItem>
         ))}
+
+        <ListItem autoFocus button onClick={() => handleListItemClick('addAccount')}>
+          <ListItemAvatar>
+            <Avatar>
+              <AddIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary="Добавить новый чат" className={ classes.testClass }/>
+        </ListItem>
       </List>
     </Dialog>
+  );
+}
+
+SimpleDialog.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  selectedValue: PropTypes.string.isRequired,
+};
+
+export default function SimpleDialogDemo(props) {
+  const [open, setOpen] = React.useState(false);
+  const [selectedValue, setSelectedValue] = React.useState(emails[0]);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (value) => {
+    setOpen(false);
+    setSelectedValue(value);
+    if (value) {
+        props.addChat(value);
+    }
+  };
+
+  return (
+    <div>
+      <Button variant="outlined" onClick={handleClickOpen} style={ { outline: 'none', color: 'white', borderColor: 'white' } }>
+        Добавить чат
+      </Button>
+      <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose}/>
+    </div>
   );
 }

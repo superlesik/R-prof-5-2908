@@ -3,13 +3,12 @@ import ReactDom from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './layout/css/styles.css';
-import Layout from './components/Layout/Layout.jsx';
 import { ConnectedRouter } from 'connected-react-router';
 import Router from './Router.jsx';
 import { Provider } from 'react-redux';
-import {initStore} from './store/index.js';
+import initStore from './store/index.js';
 import { history } from './store';
-import { PersistGate } from 'redux-persist/es/integration/react' 
+import { PersistGate } from 'redux-persist/es/integration/react';
 
 const container = document.getElementById('app');
 const { store, persistor } = initStore();

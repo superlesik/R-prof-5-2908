@@ -1,10 +1,11 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Layout from './components/Layout/Layout.jsx';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import Layout from './containers/Layout/Layout.jsx';
+import Profile from './containers/Profile/Profile.jsx';
+// import { connect } from 'react-redux';
+// import { bindActionCreators } from 'redux';
 
-class Router extends React.Component {
+export default class Router extends React.Component {
     // render() {
     //     let { chats } = this.props;
 
@@ -26,14 +27,19 @@ class Router extends React.Component {
                     path='/chat/:chatId/'
                     render={ obj => <Layout chatId={ Number(obj.match.params.chatId) }/> }
                 />
+                 <Route
+                    exact
+                    path='/profile/'
+                    render={ () => <Profile /> }
+                />
             </Switch>
         )
     }
 } 
-const mapStateToProps = ({ chatReducer }) => ({
-    chats: chatReducer.chats
-});
+// const mapStateToProps = ({ chatReducer }) => ({
+//     chats: chatReducer.chats
+// });
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+// const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Router);
+// export default connect(mapStateToProps, mapDispatchToProps)(Router);

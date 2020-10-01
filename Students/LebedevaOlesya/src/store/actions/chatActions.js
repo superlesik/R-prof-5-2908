@@ -13,18 +13,18 @@ export const addChat = (title) => ({
 });
 
 export const loadChats = () => ({
-   [RSAA]: {
-       endpoint: '/api/user/u-1',
+    [RSAA]: {
+       endpoint: '/server/db/chats/chats.json',
        method: 'GET',
-       headers: {'Content-Type': 'application/json' },
        types: [
-           START_CHATS_LOADING,
-           {
-               type: SUCCESS_CHATS_LOADING,
-               payload: (action, state, res) => getJSON(res)
-                   .then(json => normalize(json, [chats]))
-           },
-           ERR_CHATS_LOADING
-       ]
-   }
-});
+          START_CHATS_LOADING,
+          {
+             type: SUCCESS_CHATS_LOADING,
+             payload: (action, state, res) => getJSON(res).then(
+                json => normalize(json, [chats]),
+             ),
+          },
+          ERROR_CHATS_LOADING,
+       ],
+    },
+ });

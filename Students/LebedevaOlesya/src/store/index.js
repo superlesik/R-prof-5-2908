@@ -11,24 +11,25 @@ const persistConfig = {
     key: 'geekmessanger',
     storage,
     stateReconciler: autoMergeLevel2,
-    whitelist: [],
+    whitelist: ['messageReducer', 'chatReducer', 'profileReducer'],
 };
 
-export const history = createBrowserHistory()
+export const history = createBrowserHistory();
 
-export function initStore() {
-    const initialStore = {};
-    // const reduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : () => {};
-    
-    const store =  createStore(persistReducer(persistConfig, initReducers(history)),
-        initialStore,
-        compose(applyMiddleware(routerMiddleware(history), ...middlewares),
-            //window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : () => {},
+function initStore() {
+    const innitialStore = {};
+
+    const store = createStore(
+        persistReducer(persistConfig, initReducers(history)),
+        innitialStore,
+        compose (
+            applyMiddleware(routerMiddleware(history),...middlewares),
+            window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : () => {}
         )
     );
-    
     const persistor = persistStore(store);
-    
+
     return { store, persistor };
 }
-// export default initStore;
+
+export default initStore;

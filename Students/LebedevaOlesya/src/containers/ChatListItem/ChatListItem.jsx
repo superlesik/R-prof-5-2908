@@ -11,7 +11,7 @@ export default props => {
     // console.log(this.name)
     return (
         <ListItem button>
-            <ListItemText primary = { name } />
+            <ListItemText className="chat-link" primary = { name } />
         </ListItem>
     )
 }

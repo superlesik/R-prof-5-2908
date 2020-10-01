@@ -1,5 +1,4 @@
 import { SEND_MESSAGE, sendMessage } from "../store/actions/messageActions.js";
-// import { ADD_CHAT } from '../store/actions/chatActions.js';
 
 export default store => next => (action) => {
     switch (action.type) {
@@ -14,7 +13,7 @@ export default store => next => (action) => {
                     }
                 }, 1000 )
             }
-            if (action.sender === 'Bot') {
+            if (action.sender === 'Me') {
                 const span = store.getState().chatReducer.chatLink.current.children[action.chatId - 1];
                 span.style.color = 'rgb(255, 255, 255)';
                 let timerId = setTimeout(function tick() {

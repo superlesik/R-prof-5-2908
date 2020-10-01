@@ -32,11 +32,11 @@ class MessageField extends Component {
     };
 
     handleSendMessage = () => {
-        if (this.state.input.length > 0 || sender === 'Bot') {
+        if (this.state.input.length > 0 || sender === 'bot') {
             this.props.sendMessage('chat-' + this.props.chatId + '_' + (this.props.chats[this.props.chatId].messageList.length + 1) , this.state.input, 'Me', this.props.chatId);
         }
         this.setState({ input: '' });
-        $(".message-field").scrollTop($(".message-field").prop("scrollHeight"));
+        // $(".message-field").scrollTop($(".message-field").prop("scrollHeight"));
 
     };
 

@@ -11,7 +11,7 @@
             {
                 "id": 2,
                 "text": "Я робот",
-                "sender": "bot"
+                "sender": "Bot"
             }
         ]
     },
@@ -27,7 +27,7 @@
             {
                 "id": 4,
                 "text": "Я робот",
-                "sender": "bot"
+                "sender": "Bot"
             }
         ]
     },
@@ -43,7 +43,7 @@
             {
                 "id": 6,
                 "text": "Я робот",
-                "sender": "bot"
+                "sender": "Bot"
             }
         ]
     }

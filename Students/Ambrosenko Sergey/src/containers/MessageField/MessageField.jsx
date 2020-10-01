@@ -6,6 +6,9 @@ import SendIcon from '@material-ui/icons/Send';
 import Message from '../../components/Message/Message.jsx';
 import { bindActionCreators } from 'redux';
 import connect from 'react-redux/es/connect/connect';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { sendMessage } from '../../Store/Actions/messageActions';
+import { loadChats } from '../../Store/Actions/chatActions';
 
 class MessageField extends Component {
     constructor(props) {
@@ -19,19 +22,18 @@ class MessageField extends Component {
         messages: PropTypes.object.isRequired,
         chats: PropTypes.object.isRequired,
         sendMessage: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool.isRequired,
     };
 
     state = {
         input: '',
     };
 
-    handleSendMessage = (message, sender) => {
+    handleSendMessage = () => {
         if (this.state.input.length > 0 || sender === 'Bot') {
-            this.props.sendMessage(message, sender);
+            this.props.sendMessage('chat-' + this.props.chatId + '_' + (this.props.chats[this.props.chatId].messageList.length + 1) , this.state.input, 'Me', this.props.chatId);
         }
-        if (sender === 'Me') {
-            this.setState({ input: '' });
-        }
+        this.setState({ input: '' });
     };
 
     handleChange = (event) => {
@@ -40,29 +42,35 @@ class MessageField extends Component {
 
     handleKeyUp = (event) => {
         if (event.keyCode === 13) { 
-            this.handleSendMessage(this.state.input, 'Me');
+            this.handleSendMessage();
         }
     };
 
     componentDidMount() {
-        this.textInput.current.children[0].firstChild.focus();
-        this.textInput.current.children[0].firstChild.style.color = '#787878';
+        // this.textInput.current.children[0].firstChild.focus();
+        // this.textInput.current.children[0].firstChild.style.color = '#787878';
+        this.props.loadChats();
     }
 
     componentDidUpdate() {
-        this.textInput.current.children[0].firstChild.focus();
-        this.msgField.current.scrollTop = this.msgField.current.scrollHeight;
+        // this.textInput.current.children[0].firstChild.focus();
+        // this.msgField.current.scrollTop = this.msgField.current.scrollHeight;
     }
  
     render() {
+        if (this.props.isLoading) {
+            return <CircularProgress />
+        }
+        let messageElements;
         const { chatId, messages, chats } = this.props;
-
-        const messageElements = chats[chatId].messageList.map(messageId => (
-            <Message
-                key={ messageId }
-                text={ messages[messageId].text }
-                sender={ messages[messageId].sender }
-            />));
+        if (Object.keys(messages).length != 0 && Object.keys(chats).length != 0) {
+            messageElements = chats[chatId].messageList.map(messageId => (
+                <Message
+                    key={ messageId }
+                    text={ messages[messageId].text }
+                    sender={ messages[messageId].sender }
+                />));
+        }
  
         return [
             <div className="layout">
@@ -80,7 +88,7 @@ class MessageField extends Component {
                         onChange={ this.handleChange }
                         onKeyUp={ this.handleKeyUp }
                     />
-                    <button className="sendBtn" style={ { outline: 'none' } } onClick={ () => this.handleSendMessage(this.state.input, 'Me') }>
+                    <button className="sendBtn" style={ { outline: 'none' } } onClick={ () => this.handleSendMessage() }>
                         <SendIcon style={ { fontSize: '1.4em' } } />
                     </button>
                 </div>
@@ -89,10 +97,12 @@ class MessageField extends Component {
     }
 }
 
-const mapStateToProps = ({ chatReducer }) => ({
+const mapStateToProps = ({ chatReducer, messageReducer }) => ({
     chats: chatReducer.chats,
+    messages: messageReducer.messages,
+    isLoading: messageReducer.isLoading,
 });
  
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ sendMessage, loadChats }, dispatch);
  
 export default connect(mapStateToProps, mapDispatchToProps)(MessageField);

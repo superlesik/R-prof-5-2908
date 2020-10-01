@@ -1,0 +1,13 @@
+.layout {
+	height: 100%;
+	margin: auto;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	width: 800px;
+ }
+
+ .content {
+	 display: flex;
+	 width: 100%;
+ }

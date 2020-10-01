@@ -13,11 +13,12 @@ export default class Header extends Component {
 	}
 
 	render() {
+		let chatTitle = this.props.chatTitle;
 		return (
 			<header className="header">
 				<h1>Untitled chat</h1>
 				<h4>Made with ReactJS</h4>
-				<span className="chatNumber">Чат { this.props.chatId }</span>
+				<span className="chatNumber">Chat: { chatTitle }</span>
 			</header>
 		)
 	}

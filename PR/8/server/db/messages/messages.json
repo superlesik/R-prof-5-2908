@@ -1,0 +1,22 @@
+[
+    {
+        "_id": "m-1",
+        "sender": "u-1",
+        "text": "Hello"
+    },
+    {
+        "_id": "m-2",
+        "sender": "u-1",
+        "text": "How Are U?"
+    },
+    {
+        "_id": "m-3",
+        "sender": "",
+        "text": "I am fine"
+    },
+    {
+        "_id": "m-4",
+        "sender": "u-1",
+        "text": "Ok!"
+    }
+]

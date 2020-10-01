@@ -31,6 +31,7 @@ module.exports = {
             }
         ]
     },
+    devtool: 'cheap-inline-module-source-map',
     plugins: [
         new MiniCssExtractPlugin({
             filename: path.join('style', '[name].css'),

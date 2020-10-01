@@ -1,14 +1,15 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {addChat, onTextChange, sendMessage, setCurrentChat} from "../../../store/actions/messagesAction";
+import {deleteMessage, onTextChange, sendMessage, setCurrentChat} from "../../../store/actions/messagesAction";
 import ChatList from "./ChatList/ChatList.jsx";
 import NewMessage from "./MessageField/NewMessage.jsx";
-import Messages from "./MessageField/Messages.jsx";
+import MessageField from "./MessageField/MessageField.jsx";
+import ContactsContainer from "./Contacts/ContactsContainer.jsx";
+import {toggleContactList} from "../../../store/actions/contactsActions";
+import {deleteChat} from "../../../store/actions/chatsAction";
+import StartedPage from "./MessageField/StartedPage.jsx";
 
 class ContentContainer extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     handleChange = evt => {
         if (evt.keyCode !== 13) {
@@ -23,15 +24,27 @@ class ContentContainer extends React.Component {
     }
 
     render() {
+
         return (
             <div className="content">
+                <div className={this.props.isVisible ? 'content__contacts visible' : 'content__contacts invisible'}>
+                    <ContactsContainer/>
+                </div>
                 <div className="content__chatList">
-                    <ChatList chats={this.props.messages} setCurrentChat={this.props.setCurrentChat} currentChat={this.props.currentChat} addChat={this.props.addChat}/>
+                    <ChatList chats={this.props.chats} setCurrentChat={this.props.setCurrentChat}
+                              currentChat={this.props.currentChat} addChat={this.props.addChat}
+                              toggleContactList={this.props.toggleContactList} deleteChat={this.props.deleteChat}/>
                 </div>
                 <div className='content__messageField'>
-                    <Messages chatId={this.props.chatId} messages={this.props.messages}/>
-                    <NewMessage newMessageText={this.props.newMessageText} handleChange={this.handleChange}
-                                sendMessage={this.sendMessage}/>
+                    {this.props.chatId ?
+                        <div className='content__message'>
+                            <MessageField chatId={this.props.chatId} messages={this.props.messages}
+                                          currentUser={this.props.currentUser}
+                                          deleteMessage={this.props.deleteMessage}/>
+                            <NewMessage newMessageText={this.props.newMessageText} handleChange={this.handleChange}
+                                        sendMessage={this.sendMessage}/>
+                        </div> :
+                        <StartedPage currentUser={this.props.currentUser}/>}
                 </div>
             </div>
         )
@@ -40,10 +53,12 @@ class ContentContainer extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        messages: state.messages.chats,
-        newMessageText: state.messages.newMessageText,
-        currentChat: state.messages.currentChat,
-        currentUser: state.logInfo.currentUser,
+        messages: state.msgReducer.messages,
+        newMessageText: state.msgReducer.newMessageText,
+        currentChat: state.msgReducer.currentChat,
+        currentUser: state.loginReducer.currentUser,
+        chats: state.chatsReducer.chats,
+        isVisible: state.contactsReducer.isVisible,
     }
 }
 
@@ -55,11 +70,17 @@ const mapDispatchToProps = (dispatch) => {
         addMessage: (sender) => {
             dispatch(sendMessage(sender));
         },
-        addChat:() => {
-            dispatch(addChat())
+        deleteMessage: (messageID) => {
+            dispatch(deleteMessage(messageID))
         },
         setCurrentChat: (chatID) => {
             dispatch(setCurrentChat(chatID))
+        },
+        toggleContactList: () => {
+            dispatch(toggleContactList())
+        },
+        deleteChat: (id, title) => {
+            dispatch(deleteChat(id, title))
         }
     }
 }

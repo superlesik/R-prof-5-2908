@@ -7,9 +7,9 @@ export default store => next => (action) => {
                 setTimeout(() =>
                 {
                     const messages = store.getState().messageReducer.messages;
-                    const messagesLength = Object.keys(messages).length;
-                    if (messages[messagesLength].sender === 'Me') {
-                        store.dispatch(sendMessage(messagesLength + 1, 'Не приставай ко мне, я робот!', 'Bot', action.chatId))
+                    const key = Object.keys(messages)[Object.keys(messages).length - 1];
+                    if (messages[key].sender === 'Me') {
+                        store.dispatch(sendMessage(Object.keys(messages).length + 1, 'Не приставай ко мне, я робот!', 'Bot', action.chatId))
                     }
                 }, 1000 )
             }

@@ -22,10 +22,10 @@ export default class Layout extends Component {
 		return (
 			<StylesProvider>
 					<div className="layout d-flex w-200 justify-content-center flex-column">
-						<Header chatId = { this.props.chatId }/>
+						<Header chatTitle = { this.props.chatTitle }/>
 						<main className="content">
-							<ChatList id = { this.props.chatId } className="chatList"/>
-							<MessageField chatId = { this.props.chatId } /> 
+							<ChatList />
+							<MessageField name="Bot" /> 
 						</main>
 					</div>
 			</StylesProvider>

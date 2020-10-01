@@ -3,42 +3,26 @@ import React, { Component, Fragment } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import ChatsDialog from '../ChatsDialog/ChatsDialog.jsx';
-
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import { ListItemText } from '@material-ui/core';
-//import ContentSend from '@material-ui/icons/Send';
+import ChatsDialog from '../ChatsDialog/ChatsDialog.jsx';
+import Item from '../ChatListItem/ChatListItem.jsx';
 
-export default class ChatList extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-		}
-	}
-
+class ChatList extends Component {
+	
 	render() {
+		let { chats } = this.props;
 
+		let linksArr = chats.map(ch =>  <Link to = {`/chat/${ch.id}`}>
+											<Item name={ ch.title } />
+										</Link>)
 		return (
 			<Fragment>
 				<div className="chatList d-flex flex-column">
-					<List component="nav">
-						<Link to = '/chat/1'>
-							<ListItem button>
-								<ListItemText primary="Chat 1"/>
-							</ListItem>
-						</Link>
-						<Link to = '/chat/2'>
-							<ListItem button>
-								<ListItemText primary="Chat 2"/>
-							</ListItem>
-						</Link>
-						<Link to = '/chat/3'>
-							<ListItem button>
-								<ListItemText primary="Chat 3"/>
-							</ListItem>
-						</Link>
+					<List>
+						{ linksArr }
 					</List>
 					<div>
 						<ChatsDialog />
@@ -48,3 +32,11 @@ export default class ChatList extends Component {
 		)
 	}
 }
+
+const mapStateToProps = ({ chatReducer }) => ({
+	chats: chatReducer.chats
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatList);

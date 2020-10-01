@@ -11,22 +11,10 @@ import { sendMessage } from '../../Store/Actions/messageActions.js';
 class Layout extends Component {
     static propTypes = {
         chatId: PropTypes.number,
-        sendMessage: PropTypes.func.isRequired,
     };
  
     static defaultProps = {
         chatId: 1,
-    };
-
-    sendMessage = (message, sender) => {
-        const { chatId } = this.props;
-        const { messages } = this.props;
-        const messageId = Object.keys(messages).length + 1;
-        this.setState({
-            messages: {...messages,
-                [messageId]: {text: message, sender: sender}},
-        });
-        this.props.sendMessage(messageId, message, sender, chatId);
     };
 
     render() {
@@ -36,8 +24,6 @@ class Layout extends Component {
                 <ChatList />
                 <MessageField 
                     chatId={ this.props.chatId } 
-                    messages={ this.props.messages }
-                    sendMessage={ this.sendMessage }
                 />
             </Fragment>
         )

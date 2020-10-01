@@ -1,0 +1,20 @@
+{
+    "_id": "u-1",
+    "name": "user-1",
+    "password": "lorem",
+    "contacts": ["contact-1", "contact-2", "contact-3", "contact-4", "contact-5"],
+    "chats": [
+        {
+            "name": "contact-1",
+            "id": "c-1"
+        }, 
+        {
+            "name": "contact-2",
+            "id": "c-2"
+        },
+        {
+            "name": "contact-3",
+            "id": "c-3"
+        }
+    ]
+}
